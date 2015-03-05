@@ -66,7 +66,8 @@ public final class Main extends JavaPlugin implements Listener{
 		if(!e.isCancelled()) {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
-			logToFile("[" + dateFormat.format(date) + "] " +  e.getPlayer().getName() + ": " + e.getMessage());
+			//logToFile("[" + dateFormat.format(date) + "] " +  e.getPlayer().getName() + ": " + e.getMessage());
+			HttpTest.post("chat","[" + dateFormat.format(date) + "] " +  e.getPlayer().getName() + ": " + e.getMessage());
 		}
 	}
 	
