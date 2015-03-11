@@ -9,8 +9,8 @@ import org.junit.Test;
 public class Maintest {
 
 	@Test
-	public void test() {
-		HttpTest.post("chat","ds");
+	public void test() throws Exception {
+		
 		assertEquals(1, 1);
 	}
 
