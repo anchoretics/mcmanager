@@ -51,6 +51,8 @@ public class HttpTest {
 		list.add(new BasicNameValuePair("location_x", String.valueOf(player.getLocation().getX())));
 		list.add(new BasicNameValuePair("location_y", String.valueOf(player.getLocation().getY())));
 		list.add(new BasicNameValuePair("location_z", String.valueOf(player.getLocation().getZ())));
+		list.add(new BasicNameValuePair("hostname", player.getAddress().getHostName()));
+		list.add(new BasicNameValuePair("hostaddress", player.getAddress().getHostString()));
 		//根据类别添加个性数据
 		switch (type) {
 			case  CHAT :
@@ -59,7 +61,6 @@ public class HttpTest {
 			case  LOGIN :
 				list.add(new BasicNameValuePair("kickmessage", options[0]));
 				list.add(new BasicNameValuePair("result", options[1]));
-				list.add(new BasicNameValuePair("hostaddress", options[2]));
 				break;
 			case  LOGOUT :
 				break;
