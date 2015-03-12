@@ -9,18 +9,23 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin implements Listener{
 
-
+	
 	@Override
 	public void onEnable() {
 		getLogger().info("An plugin is enabled!");
 		getServer().getPluginManager().registerEvents(this, this);
-		
+		String _url = getConfig().getString("settings.post-url");
+		if(_url == null){
+			getLogger().warning("配置文件加载出错！");
+		}else{
+			HttpTest.init(_url);
+		}
 	}
 	
 	@Override
@@ -64,9 +69,9 @@ public final class Main extends JavaPlugin implements Listener{
 	}
 	
 	@EventHandler
-	public void onPlayerLogin(PlayerLoginEvent e){
+	public void onPlayerLogin(PlayerJoinEvent e){
 		try {
-			HttpTest.post(HttpTest.Type.LOGIN, "login on: " + e.getHostname(), e.getPlayer(), e.getKickMessage(), e.getResult().name(), e.getAddress().getHostAddress());
+			HttpTest.post(HttpTest.Type.LOGIN, e.getJoinMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}

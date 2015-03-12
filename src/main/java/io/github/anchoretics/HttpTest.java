@@ -16,11 +16,14 @@ import org.apache.http.message.BasicNameValuePair;
 import org.bukkit.entity.Player;
 
 public class HttpTest {
-	
+
+	public static String POST_URL;
 	public HttpTest(){
 		
 	}
-	
+	public static void init(String post_url){
+		POST_URL = post_url;
+	}
 	public static enum Type{
 		CHAT,
 		LOGIN,
@@ -29,10 +32,12 @@ public class HttpTest {
 	}
 	
 	public static CloseableHttpClient client = WinHttpClients.createDefault();
-	public static HttpPost httpPost = new HttpPost("http://112.124.57.143:3000/post/data");
+	public static HttpPost httpPost ;
 	public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public static void post(Type type, String msg, Player player, String... options) throws Exception{
+		if(httpPost == null)
+			httpPost = new HttpPost(POST_URL);
 		
 		Date date = new Date();
 		
@@ -53,22 +58,6 @@ public class HttpTest {
 		list.add(new BasicNameValuePair("location_z", String.valueOf(player.getLocation().getZ())));
 		list.add(new BasicNameValuePair("hostname", player.getAddress().getHostName()));
 		list.add(new BasicNameValuePair("hostaddress", player.getAddress().getHostString()));
-		//根据类别添加个性数据
-		switch (type) {
-			case  CHAT :
-				list.add(new BasicNameValuePair("format", options[0]));
-				break;
-			case  LOGIN :
-				list.add(new BasicNameValuePair("kickmessage", options[0]));
-				list.add(new BasicNameValuePair("result", options[1]));
-				break;
-			case  LOGOUT :
-				break;
-			case  COMMAND :
-				break;
-			default:
-				break;
-		}
 		
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(list, Consts.UTF_8));
