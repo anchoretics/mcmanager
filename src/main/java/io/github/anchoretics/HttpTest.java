@@ -33,7 +33,6 @@ public class HttpTest {
 	
 	public static CloseableHttpClient client = WinHttpClients.createDefault();
 	public static HttpPost httpPost ;
-	public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public static void post(Type type, String msg, Player player, String... options) throws Exception{
 		if(httpPost == null)
@@ -45,7 +44,7 @@ public class HttpTest {
 		//添加基本的数据
 		list.add(new BasicNameValuePair("type", type.name().toLowerCase()));
 		list.add(new BasicNameValuePair("message", msg));
-		list.add(new BasicNameValuePair("time", dateFormat.format(date)));
+		list.add(new BasicNameValuePair("time", String.valueOf(System.currentTimeMillis())));
 		list.add(new BasicNameValuePair("customname", player.getCustomName()));
 		list.add(new BasicNameValuePair("displayname", player.getDisplayName()));
 		list.add(new BasicNameValuePair("name", player.getName()));
