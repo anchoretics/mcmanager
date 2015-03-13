@@ -38,8 +38,6 @@ public class HttpTest {
 		if(httpPost == null)
 			httpPost = new HttpPost(POST_URL);
 		
-		Date date = new Date();
-		
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		//添加基本的数据
 		list.add(new BasicNameValuePair("type", type.name().toLowerCase()));
