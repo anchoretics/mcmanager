@@ -26,6 +26,12 @@ public final class Main extends JavaPlugin implements Listener{
 		}else{
 			HttpTest.init(_url);
 		}
+		try {
+			//start thread
+			new BgThread(this).start();
+		} catch (Exception e) {
+			getLogger().warning(e.getMessage());
+		}
 	}
 	
 	@Override

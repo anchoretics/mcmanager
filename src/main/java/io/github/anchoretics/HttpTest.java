@@ -1,9 +1,6 @@
 package io.github.anchoretics;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.http.Consts;
@@ -58,7 +55,7 @@ public class HttpTest {
 		
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(list, Consts.UTF_8));
-			client.execute(httpPost).close();
+//			client.execute(httpPost).close();
 		} catch (Exception e) {
 			throw new Exception(e.getStackTrace().toString());
 		}
