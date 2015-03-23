@@ -17,5 +17,16 @@
 			<version>1.7.9-R0.2</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+		  <groupId>com.github.nkzawa</groupId>
+		  <artifactId>engine.io-client</artifactId>
+		  <version>0.4.1</version>
+		  <type>pom</type>
+		</dependency>
+		<dependency>
+		  <groupId>com.github.nkzawa</groupId>
+		  <artifactId>socket.io-client</artifactId>
+		  <version>0.4.2</version>
+		</dependency>
 	</dependencies>
 </project>
