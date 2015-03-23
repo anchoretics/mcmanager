@@ -24,6 +24,7 @@ public final class Main extends JavaPlugin implements Listener{
 		if(_url == null){
 			getLogger().warning("配置文件加载出错！");
 		}else{
+			getLogger().info("post url init : " + _url);
 			HttpTest.init(_url);
 		}
 		try {

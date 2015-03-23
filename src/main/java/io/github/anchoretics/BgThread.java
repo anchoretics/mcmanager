@@ -24,16 +24,29 @@ public class BgThread extends Thread {
 
 	@Override
 	public void run() {
+
 		final Socket socket;
 		try {
-			socket = IO.socket("http://127.0.0.1:3000/");
-			socket.connect();
+			socket = IO.socket("http://192.168.2.14:3000/");
 			socket.on("user join", new Emitter.Listener() {
 				public void call(Object... args) {
 
 					JSONObject obj = (JSONObject)args[0];
 					try {
-						System.out.println("玩家[" + obj.get("msg") + "]从网页端登录");
+						System.out.println("玩家[" + obj.get("username") + "]" + obj.get("msg"));
+						plugin.getServer().broadcastMessage("玩家[" + obj.get("username") + "]" + obj.get("msg"));
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			socket.on("user left", new Emitter.Listener() {
+				public void call(Object... args) {
+
+					JSONObject obj = (JSONObject)args[0];
+					try {
+						System.out.println("玩家[" + obj.get("username") + "]" + obj.get("msg"));
+						plugin.getServer().broadcastMessage("玩家[" + obj.get("username") + "]" + obj.get("msg"));
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -44,13 +57,14 @@ public class BgThread extends Thread {
 
 					JSONObject obj = (JSONObject)args[0];
 					try {
-						System.out.println("[网页端]" + obj.getString("username") + " : " + obj.getString("msg"));
-						plugin.getServer().broadcastMessage("[网页端]" + obj.getString("username") + " : " + obj.getString("msg"));
+						System.out.println("[网站聊天室]" + obj.getString("username") + " : " + obj.getString("msg"));
+						plugin.getServer().broadcastMessage("[网站聊天室]" + obj.getString("username") + " : " + obj.getString("msg"));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			});
+			socket.connect();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}

@@ -30,7 +30,7 @@ public class HttpTest {
 		COMMAND
 	}
 	
-	public static CloseableHttpClient client = WinHttpClients.createDefault();
+	public static final CloseableHttpClient client = WinHttpClients.createDefault();
 	public static HttpPost httpPost ;
 	
 	public static void post(Type type, String msg, Player player, String... options) throws Exception{
