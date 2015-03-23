@@ -12,13 +12,13 @@ import com.github.nkzawa.socketio.client.Socket;
 
 public class BgThread extends Thread {
 
-	private String POST_URL;
+	private String SOCKET_URL;
 	private Plugin plugin;
 
-	public BgThread(Plugin plugin) {
+	public BgThread(Plugin plugin, String url) {
 		if(plugin != null){
 			this.plugin = plugin;
-			this.POST_URL = plugin.getConfig().getString("settings.post-url");
+			this.SOCKET_URL = url;
 		}
 	}
 
@@ -27,7 +27,7 @@ public class BgThread extends Thread {
 
 		final Socket socket;
 		try {
-			socket = IO.socket("http://192.168.2.14:3000/");
+			socket = IO.socket(this.SOCKET_URL);
 			socket.on("user join", new Emitter.Listener() {
 				public void call(Object... args) {
 

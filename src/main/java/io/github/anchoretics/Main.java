@@ -21,15 +21,15 @@ public final class Main extends JavaPlugin implements Listener{
 		getLogger().info("An plugin is enabled!");
 		getServer().getPluginManager().registerEvents(this, this);
 		String _url = getConfig().getString("settings.post-url");
-		if(_url == null){
+		String _iourl = getConfig().getString("settings.socketio-url");
+		if(_url == null || _iourl == null){
 			getLogger().warning("配置文件加载出错！");
 		}else{
-			getLogger().info("post url init : " + _url);
-			HttpTest.init(_url);
+			HttpPostTool.init(_url);
 		}
 		try {
-			//start thread
-			new BgThread(this).start();
+			//start socket.io-client thread
+			new BgThread(this, _iourl).start();
 		} catch (Exception e) {
 			getLogger().warning(e.getMessage());
 		}
@@ -68,7 +68,7 @@ public final class Main extends JavaPlugin implements Listener{
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(!e.isCancelled()) {
 			try {
-				HttpTest.post(HttpTest.Type.CHAT, e.getMessage(), e.getPlayer(), e.getFormat());
+				HttpPostTool.post(HttpPostTool.Type.CHAT, e.getMessage(), e.getPlayer(), e.getFormat());
 			} catch (Exception e1) {
 				getLogger().warning(e1.getStackTrace().toString());
 			}
@@ -78,7 +78,7 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogin(PlayerJoinEvent e){
 		try {
-			HttpTest.post(HttpTest.Type.LOGIN, e.getJoinMessage(), e.getPlayer());
+			HttpPostTool.post(HttpPostTool.Type.LOGIN, e.getJoinMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}
@@ -87,7 +87,7 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerCommand(PlayerCommandPreprocessEvent e){
 		try {
-			HttpTest.post(HttpTest.Type.COMMAND, e.getMessage(), e.getPlayer());
+			HttpPostTool.post(HttpPostTool.Type.COMMAND, e.getMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}
@@ -96,7 +96,7 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent e){
 		try {
-			HttpTest.post(HttpTest.Type.LOGOUT, e.getQuitMessage(), e.getPlayer());
+			HttpPostTool.post(HttpPostTool.Type.LOGOUT, e.getQuitMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}

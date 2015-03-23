@@ -14,10 +14,10 @@ import org.apache.http.impl.client.WinHttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.bukkit.entity.Player;
 
-public class HttpTest {
+public class HttpPostTool {
 
 	public static String POST_URL;
-	public HttpTest(){
+	public HttpPostTool(){
 		
 	}
 	public static void init(String post_url){
