@@ -33,7 +33,6 @@ public class BgThread extends Thread {
 
 					JSONObject obj = (JSONObject)args[0];
 					try {
-						System.out.println("玩家[" + obj.get("username") + "]" + obj.get("msg"));
 						plugin.getServer().broadcastMessage("玩家[" + obj.get("username") + "]" + obj.get("msg"));
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -45,7 +44,6 @@ public class BgThread extends Thread {
 
 					JSONObject obj = (JSONObject)args[0];
 					try {
-						System.out.println("玩家[" + obj.get("username") + "]" + obj.get("msg"));
 						plugin.getServer().broadcastMessage("玩家[" + obj.get("username") + "]" + obj.get("msg"));
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -54,10 +52,8 @@ public class BgThread extends Thread {
 			});
 			socket.on("web message", new Emitter.Listener() {
 				public void call(Object... args) {
-
 					JSONObject obj = (JSONObject)args[0];
 					try {
-						System.out.println("[网站聊天室]" + obj.getString("username") + " : " + obj.getString("msg"));
 						plugin.getServer().broadcastMessage("[网站聊天室]" + obj.getString("username") + " : " + obj.getString("msg"));
 					} catch (Exception e) {
 						e.printStackTrace();

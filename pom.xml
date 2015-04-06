@@ -9,7 +9,7 @@
 			<url>http://repo.bukkit.org/content/groups/public/</url>
 		</repository>
 	</repositories>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-beta</version>
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
