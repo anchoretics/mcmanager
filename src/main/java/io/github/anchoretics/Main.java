@@ -19,7 +19,6 @@ public final class Main extends JavaPlugin implements Listener{
 	
 	@Override
 	public void onEnable() {
-		getLogger().info("An plugin is enabled!");
 		getServer().getPluginManager().registerEvents(this, this);
 		String _url = getConfig().getString("settings.post-url");
 		String _iourl = getConfig().getString("settings.socketio-url");
@@ -34,6 +33,7 @@ public final class Main extends JavaPlugin implements Listener{
 		} catch (Exception e) {
 			getLogger().warning(e.getMessage());
 		}
+		getLogger().info("An plugin is enabled!");
 	}
 	
 	@Override
