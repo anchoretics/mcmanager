@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -16,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin implements Listener{
 
-	
 	@Override
 	public void onEnable() {
 		getLogger().info("An plugin is enabled!");
@@ -27,12 +25,12 @@ public final class Main extends JavaPlugin implements Listener{
 			getLogger().warning("配置文件加载出错！");
 		}else{
 			HttpPostTool.init(_url);
-		}
-		try {
-			//start socket.io-client thread
-			new BgThread(this, _iourl).start();
-		} catch (Exception e) {
-			getLogger().warning(e.getMessage());
+			try {
+				//start socket.io-client thread
+				new SocketIoThread(this, _iourl).start();
+			} catch (Exception e) {
+				getLogger().warning(e.getMessage());
+			}
 		}
 	}
 	
@@ -79,8 +77,7 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogin(PlayerJoinEvent e){
 		try {
-			System.out.println("---------test----------");
-			
+			this.getServer().broadcastMessage("/whitelist add " + System.currentTimeMillis());
 			HttpPostTool.post(HttpPostTool.Type.LOGIN, e.getJoinMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
