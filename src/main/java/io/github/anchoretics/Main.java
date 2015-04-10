@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.bukkit.command.defaults.WhitelistCommand;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -27,6 +28,7 @@ public final class Main extends JavaPlugin implements Listener{
 			try {
 				//start socket.io-client thread
 				new SocketIoThread(this, _iourl).start();
+				new MonitorThread(this, _url).start();
 			} catch (Exception e) {
 				getLogger().warning(e.getMessage());
 			}
@@ -77,7 +79,8 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogin(PlayerJoinEvent e){
 		try {
-			this.getServer().broadcastMessage("/whitelist add " + System.currentTimeMillis());
+			this.getServer().getOfflinePlayer("test" + System.currentTimeMillis()).setWhitelisted(true);
+			this.getServer().reloadWhitelist();
 			HttpPostTool.post(HttpPostTool.Type.LOGIN, e.getJoinMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
