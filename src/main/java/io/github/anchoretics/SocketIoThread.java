@@ -14,6 +14,8 @@ public class SocketIoThread extends Thread {
 
 	private String SOCKET_URL;
 	private Plugin plugin;
+	// 插件全局socket变量
+	private static Socket socket;
 
 	public SocketIoThread(Plugin plugin, String url) {
 		if(plugin != null){
@@ -25,10 +27,10 @@ public class SocketIoThread extends Thread {
 	@Override
 	public void run() {
 
-		final Socket socket;
 		try {
-			socket = IO.socket(this.SOCKET_URL);
-			socket.on("user join", new Emitter.Listener() {
+			SocketIoThread.setSocket(IO.socket(this.SOCKET_URL));
+			
+			getSocket().on("user join", new Emitter.Listener() {
 				public void call(Object... args) {
 					JSONObject obj = (JSONObject)args[0];
 					try {
@@ -38,7 +40,7 @@ public class SocketIoThread extends Thread {
 					}
 				}
 			});
-			socket.on("user left", new Emitter.Listener() {
+			getSocket().on("user left", new Emitter.Listener() {
 				public void call(Object... args) {
 
 					JSONObject obj = (JSONObject)args[0];
@@ -49,7 +51,7 @@ public class SocketIoThread extends Thread {
 					}
 				}
 			});
-			socket.on("web message", new Emitter.Listener() {
+			getSocket().on("web message", new Emitter.Listener() {
 				public void call(Object... args) {
 					JSONObject obj = (JSONObject)args[0];
 					try {
@@ -59,11 +61,19 @@ public class SocketIoThread extends Thread {
 					}
 				}
 			});
-			socket.connect();
+			getSocket().connect();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static Socket getSocket() {
+		return socket;
+	}
+
+	public static void setSocket(Socket socket) {
+		SocketIoThread.socket = socket;
 	}
 
 }

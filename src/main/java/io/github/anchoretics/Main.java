@@ -99,6 +99,7 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent e){
 		try {
+			
 			HttpPostTool.post(HttpPostTool.Type.LOGOUT, e.getQuitMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
