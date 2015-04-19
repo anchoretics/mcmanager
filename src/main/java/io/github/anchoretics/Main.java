@@ -4,13 +4,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
+import java.util.UUID;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.defaults.WhitelistCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -79,8 +84,6 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogin(PlayerJoinEvent e){
 		try {
-			this.getServer().getOfflinePlayer("test" + System.currentTimeMillis()).setWhitelisted(true);
-			this.getServer().reloadWhitelist();
 			HttpPostTool.post(HttpPostTool.Type.LOGIN, e.getJoinMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
@@ -99,10 +102,16 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent e){
 		try {
-			
 			HttpPostTool.post(HttpPostTool.Type.LOGOUT, e.getQuitMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}
 	}
+
+	@EventHandler
+	public void onPlayerLevelChange(PlayerLevelChangeEvent e){
+		e.getPlayer().setMaxHealth(20.00+(e.getNewLevel()*2));
+		e.getPlayer().saveData();
+	}
+	
 }
