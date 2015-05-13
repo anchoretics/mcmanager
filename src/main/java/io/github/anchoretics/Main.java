@@ -24,16 +24,15 @@ public final class Main extends JavaPlugin implements Listener{
 	@Override
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(this, this);
-		String _url = getConfig().getString("settings.post-url");
 		String _iourl = getConfig().getString("settings.socketio-url");
-		if(_url == null || _iourl == null){
+		if(_iourl == null){
 			getLogger().warning("配置文件加载出错！");
+			this.setEnabled(false);
 		}else{
-			HttpPostTool.init(_url);
 			try {
 				//start socket.io-client thread
 				new SocketIoThread(this, _iourl).start();
-				new MonitorThread(this, _url).start();
+				new MonitorThread(this).start();
 			} catch (Exception e) {
 				getLogger().warning(e.getMessage());
 			}

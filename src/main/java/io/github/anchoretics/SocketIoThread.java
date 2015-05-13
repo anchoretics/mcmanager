@@ -30,7 +30,7 @@ public class SocketIoThread extends Thread {
 		try {
 			SocketIoThread.setSocket(IO.socket(this.SOCKET_URL));
 			
-			getSocket().on("user join", new Emitter.Listener() {
+			getSocket().on("web user join", new Emitter.Listener() {
 				public void call(Object... args) {
 					JSONObject obj = (JSONObject)args[0];
 					try {
@@ -40,7 +40,7 @@ public class SocketIoThread extends Thread {
 					}
 				}
 			});
-			getSocket().on("user left", new Emitter.Listener() {
+			getSocket().on("web user left", new Emitter.Listener() {
 				public void call(Object... args) {
 
 					JSONObject obj = (JSONObject)args[0];
@@ -51,7 +51,7 @@ public class SocketIoThread extends Thread {
 					}
 				}
 			});
-			getSocket().on("web message", new Emitter.Listener() {
+			getSocket().on("web user message", new Emitter.Listener() {
 				public void call(Object... args) {
 					JSONObject obj = (JSONObject)args[0];
 					try {
