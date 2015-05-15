@@ -4,12 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
-import java.util.UUID;
 
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.defaults.WhitelistCommand;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -73,7 +68,7 @@ public final class Main extends JavaPlugin implements Listener{
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(!e.isCancelled()) {
 			try {
-				HttpPostTool.post(HttpPostTool.Type.CHAT, e.getMessage(), e.getPlayer(), e.getFormat());
+//				HttpPostTool.post(HttpPostTool.Type.CHAT, e.getMessage(), e.getPlayer(), e.getFormat());
 			} catch (Exception e1) {
 				getLogger().warning(e1.getStackTrace().toString());
 			}
@@ -83,7 +78,7 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogin(PlayerJoinEvent e){
 		try {
-			HttpPostTool.post(HttpPostTool.Type.LOGIN, e.getJoinMessage(), e.getPlayer());
+//			HttpPostTool.post(HttpPostTool.Type.LOGIN, e.getJoinMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}
@@ -92,7 +87,7 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerCommand(PlayerCommandPreprocessEvent e){
 		try {
-			HttpPostTool.post(HttpPostTool.Type.COMMAND, e.getMessage(), e.getPlayer());
+//			HttpPostTool.post(HttpPostTool.Type.COMMAND, e.getMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}
@@ -101,7 +96,7 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent e){
 		try {
-			HttpPostTool.post(HttpPostTool.Type.LOGOUT, e.getQuitMessage(), e.getPlayer());
+//			HttpPostTool.post(HttpPostTool.Type.LOGOUT, e.getQuitMessage(), e.getPlayer());
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}
