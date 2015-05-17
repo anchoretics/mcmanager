@@ -1,5 +1,7 @@
-package io.github.anchoretics;
+package io.github.anchoretics.Thread;
 
+
+import io.github.anchoretics.MsgType;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -33,7 +35,7 @@ public class MonitorThread extends Thread {
 			ja.put(player.getName());
 		}
 		try {
-			SocketIoThread.getSocket().emit("game server onlineUsers", ja);
+			SocketIoThread.getSocket().emit(MsgType.EVENT_NAME, ja);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
