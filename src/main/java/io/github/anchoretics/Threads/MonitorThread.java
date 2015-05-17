@@ -1,4 +1,4 @@
-package io.github.anchoretics.Thread;
+package io.github.anchoretics.Threads;
 
 
 import io.github.anchoretics.MsgType;
@@ -10,6 +10,7 @@ import org.json.JSONArray;
 public class MonitorThread extends Thread {
 
 	private Plugin plugin;
+	private JSONArray ja;
 
 	public MonitorThread(Plugin plugin) {
 		if (plugin != null) {
@@ -30,7 +31,7 @@ public class MonitorThread extends Thread {
 	private void postOnlinePlayers() {
 		// 获取在线玩家,存到post数据队列
 		Player[] players = this.plugin.getServer().getOnlinePlayers();
-		JSONArray ja = new JSONArray();
+		ja = new JSONArray();
 		for (Player player : players) {
 			ja.put(player.getName());
 		}

@@ -1,7 +1,7 @@
 package io.github.anchoretics;
 
-import io.github.anchoretics.Thread.MonitorThread;
-import io.github.anchoretics.Thread.SocketIoThread;
+import io.github.anchoretics.Threads.MonitorThread;
+import io.github.anchoretics.Threads.SocketIoThread;
 
 import java.io.File;
 import java.io.FileWriter;

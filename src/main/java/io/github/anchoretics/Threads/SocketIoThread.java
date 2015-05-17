@@ -1,4 +1,4 @@
-package io.github.anchoretics.Thread;
+package io.github.anchoretics.Threads;
 
 import io.github.anchoretics.MsgType;
 
