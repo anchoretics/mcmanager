@@ -1,6 +1,7 @@
 package io.github.anchoretics.Threads;
 
 
+import io.github.anchoretics.Main;
 import io.github.anchoretics.MsgType;
 
 import org.bukkit.entity.Player;
@@ -18,7 +19,8 @@ public class MonitorThread extends Thread {
 			
 			//服务端启动时执行一次，通知服务端已启动
 			try {
-				SocketIoThread.getSocket().emit("game server started", "");
+				SocketIoThread.getSocket().emit(MsgType.EVENT_NAME, 
+						"{type:'"+MsgType.SERVER_START+"', token: '"+Main.TOKEN+"'}");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -36,7 +38,8 @@ public class MonitorThread extends Thread {
 			ja.put(player.getName());
 		}
 		try {
-			SocketIoThread.getSocket().emit(MsgType.EVENT_NAME, ja);
+			SocketIoThread.getSocket().emit(MsgType.EVENT_NAME, 
+					"{type: '" + MsgType.ONLINEUSERS + "', users: " + ja.toString() + ", token:'"+Main.TOKEN+"'}");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

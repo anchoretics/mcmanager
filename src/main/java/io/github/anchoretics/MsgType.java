@@ -11,7 +11,7 @@ public class MsgType {
 	public static String COMMAND = "command";
 	public static String SERVER_START = "server_start";
 	public static String ONLINEUSERS = "server_onlineusers";
-	public static String EVENT_NAME = "serverMessage";
+	public static String EVENT_NAME = "gameMessage";
 	
 	/***
 	 * 网站消息类型

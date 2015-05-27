@@ -22,6 +22,7 @@ public class SocketIoThread extends Thread {
 	public SocketIoThread(Plugin plugin, String url) {
 		if(plugin != null){
 			this.plugin = plugin;
+		}if(url != null){
 			this.SOCKET_URL = url;
 		}
 	}
@@ -62,6 +63,13 @@ public class SocketIoThread extends Thread {
 	}
 
 	public static Socket getSocket() {
+		while(socket==null){
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		return socket;
 	}
 

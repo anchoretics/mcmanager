@@ -2,12 +2,14 @@ package io.github.anchoretics;
 
 import io.github.anchoretics.Threads.MonitorThread;
 import io.github.anchoretics.Threads.SocketIoThread;
+import io.github.anchoretics.utils.MessageHelper;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -19,10 +21,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin implements Listener{
 
+	public static String TOKEN ;
 	@Override
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(this, this);
 		String _iourl = getConfig().getString("settings.socketio-url");
+		this.TOKEN = getConfig().getString("settings.token");
 		if(_iourl == null){
 			getLogger().warning("配置文件加载出错！");
 			this.setEnabled(false);
@@ -36,6 +40,8 @@ public final class Main extends JavaPlugin implements Listener{
 			}
 		}
 		getLogger().info("An plugin is enabled!");
+		//this.getServer().dispatchCommand(this.getServer().getConsoleSender(), "");
+		
 	}
 	
 	@Override
@@ -71,7 +77,8 @@ public final class Main extends JavaPlugin implements Listener{
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(!e.isCancelled()) {
 			try {
-//				HttpPostTool.post(HttpPostTool.Type.CHAT, e.getMessage(), e.getPlayer(), e.getFormat());
+				SocketIoThread.getSocket().emit(MsgType.EVENT_NAME, 
+						MessageHelper.getJsonMessage(MsgType.CHAT, e.getMessage(), e.getPlayer()));
 			} catch (Exception e1) {
 				getLogger().warning(e1.getStackTrace().toString());
 			}
@@ -81,7 +88,8 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogin(PlayerJoinEvent e){
 		try {
-//			HttpPostTool.post(HttpPostTool.Type.LOGIN, e.getJoinMessage(), e.getPlayer());
+			SocketIoThread.getSocket().emit(MsgType.EVENT_NAME, 
+					MessageHelper.getJsonMessage(MsgType.LOGIN, e.getJoinMessage(), e.getPlayer()));
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}
@@ -90,7 +98,8 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerCommand(PlayerCommandPreprocessEvent e){
 		try {
-//			HttpPostTool.post(HttpPostTool.Type.COMMAND, e.getMessage(), e.getPlayer());
+			SocketIoThread.getSocket().emit(MsgType.EVENT_NAME, 
+					MessageHelper.getJsonMessage(MsgType.COMMAND, e.getMessage(), e.getPlayer()));
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}
@@ -99,14 +108,20 @@ public final class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent e){
 		try {
-//			HttpPostTool.post(HttpPostTool.Type.LOGOUT, e.getQuitMessage(), e.getPlayer());
+			SocketIoThread.getSocket().emit(MsgType.EVENT_NAME, 
+					MessageHelper.getJsonMessage(MsgType.LOGOUT, e.getQuitMessage(), e.getPlayer()));
 		} catch (Exception e1) {
 			getLogger().warning(e1.getStackTrace().toString());
 		}
 	}
 
+	/**
+	 * 血量根据等级进行变化
+	 * @param e
+	 */
 	@EventHandler
 	public void onPlayerLevelChange(PlayerLevelChangeEvent e){
+		e.getPlayer().setHealth(20.0+(e.getNewLevel()*2));
 		e.getPlayer().setMaxHealth(20.00+(e.getNewLevel()*2));
 		e.getPlayer().saveData();
 	}
